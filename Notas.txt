@@ -1,3 +1,0 @@
-Mikrotik Smart App
-    MSApp es una aplicación de configuración especifica y desatendida de equipos mikrotik.
-    Desarrollo de necesidades especificas de NEC Argentina.
