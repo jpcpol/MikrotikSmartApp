@@ -5,13 +5,13 @@ from sys import stderr, stdin, stdout
 from turtle import clear
 import paramiko
 
-def user(username):
+def user():
 
     control=False
                     
     while control==False:
         
-        username=input("Ingrese nombre de usuario: ")
+        username=input("Ingrese nombre de usuario del Equipo: ")
         
         long=len(username) #Calcular la longitud del nomre de usuario
             
@@ -33,11 +33,13 @@ def user(username):
     return username
  
 
-def passwd(password):
+def passwd():
 
     control=False
 
-    while control==True:
+    password=input("Ingrese Contraseña del Equipo: ")
+
+    while control==False:
 
         validar=False #que se vayan cumpliendo los requisitos uno a uno.
         long=len(password) #Calcula la longitud de la contraseña
@@ -74,18 +76,23 @@ def passwd(password):
         if mayuscula == True and minuscula ==True and numeros == True and y== False and validar ==True:
            validar = True #Cumple el requisito de tener mayuscula, minuscula, numeros y no alfanuméricos
         else:
-           correcto=False #uno o mas requisitos de mayuscula, minuscula, numeros y no alfanuméricos no se cumple
+           control=False #uno o mas requisitos de mayuscula, minuscula, numeros y no alfanuméricos no se cumple
            
-        if validar == True and correcto==False:
+        if validar == True and control==False:
            print("La contraseña elegida no es segura: debe contener letras minúsculas, mayúsculas, números y al menos 1 carácter no alfanumérico")
 
-        if validar == True and correcto ==True:
-           return password
+        if validar == True and control ==True:
+            control=True
+           
+           
+    return password
 
   
 def main():
 
     addr = '0.0.0.0'
+    username=''
+    password=''
     port = 22
     validar = False
     
@@ -97,7 +104,9 @@ def main():
         
             addr=input("Ingrese IP del Equipo: ")
 
-            login()
+            username=user()
+
+            password=passwd()
                 
             print("Ingrese numero de puerto: ")
             
@@ -119,7 +128,7 @@ def main():
         client.connect(addr, port, username, password)
         #stdin, stdout, stderr = client.exec_command('ip firewall connection print terse')
         stdout = client.exec_command("ip address add address= 192.168.1.1/24 interface=lan1")
-        print(stdout.read().decode("ascii").strip("\n"))
+        #print(stdout.read().decode("ascii").strip("\n"))
         #for line in stdout:
         #    print(line.strip('\n'))
         
